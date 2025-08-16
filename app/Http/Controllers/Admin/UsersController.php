@@ -23,8 +23,6 @@ class UsersController extends Controller
         $users = User::with('role')->get();
         $roles = Role::get();
 
-        $this->authorize('viewAny', \App\Models\User::class);
-
         return view('admin/users/index', compact('users', 'roles'));
     }
 
@@ -32,16 +30,12 @@ class UsersController extends Controller
     {
         $roles = Role::get();
 
-        $this->authorize('create', \App\Models\User::class);
-
         return view('admin/users/create', compact('roles'));
     }
 
     public function store(UserCreateRequest $request)
     {
         $validated = $request->validated();
-
-        $this->authorize('update', \App\Models\User::class);
 
         User::create([
             'name' => $validated['name'],
@@ -55,9 +49,9 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        $this->authorize('update', $user);
+        // $this->authorize('update', $user);
 
-        $this->authorize('update', \App\Models\User::class);
+        // $this->authorize('update', \App\Models\User::class);
 
         $roles = Role::get();
 
@@ -68,7 +62,7 @@ class UsersController extends Controller
     {
         $validated = $request->validated();
 
-        $this->authorize('update', \App\Models\User::class);
+        // $this->authorize('update', \App\Models\User::class);
 
         $user->update([
             'name' => $validated['name'],
@@ -81,8 +75,6 @@ class UsersController extends Controller
 
     public function delete(User $user)
     {
-        $this->authorize('delete', $user);
-
         $user->delete();
         return redirect()->route('admin.users')->with('success', 'Пользователь удалён');
     }

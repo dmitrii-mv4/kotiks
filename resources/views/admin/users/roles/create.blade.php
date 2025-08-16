@@ -74,7 +74,8 @@
                     <div class="row g-sm push">
                     
                         <div class="block-content">
-                            <!-- Basic Elements -->
+
+                            <!-- Basic Prermissions -->
                             <h2 class="content-heading pt-0">Общее</h2>
                             <div class="row g-sm push push">
                                 <div class="form-check">
@@ -82,7 +83,77 @@
                                     <label class="form-check-label" for="access-admin-checkbox-default1">Доступ к панели администратора</label>
                                 </div>
                             </div>
-                            <!-- END Basic Elements --> 
+                            <!-- END Basic Prermissions --> 
+
+                            <!-- Users Prermissions -->
+                            <h2 class="content-heading pt-0 mt-5">Пользователи</h2>
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_viewAny" name="users_viewAny">
+                                    <label class="form-check-label" for="access-admin-checkbox-users_viewAny">Просмотр всех пользователей</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_view" name="users_view">
+                                    <label class="form-check-label" for="access-admin-checkbox-users_view">Просмотр профиль пользователя</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_create" name="users_create">
+                                    <label class="form-check-label" for="access-admin-checkbox-users_create">Создание пользователя</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_update" name="users_update">
+                                    <label class="form-check-label" for="access-admin-checkbox-users_update">Редактирование пользователя</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_delete" name="users_delete">
+                                    <label class="form-check-label" for="access-admin-checkbox-users_delete">Удаление пользователя</label>
+                                </div>
+                            </div>
+                            <!-- END Users Prermissions --> 
+
+                            <!-- Roles Prermissions -->
+                            <h2 class="content-heading pt-0 mt-5">Роли</h2>
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_viewAny" name="roles_viewAny">
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_viewAny">Просмотр всех ролей</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_create" name="roles_create">
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_create">Создание роли</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_update" name="roles_update">
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_update">Редактирование роли</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_delete" name="roles_delete">
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_delete">Удаление роли</label>
+                                </div>
+                            </div>
+
+                            <!-- END Users Prermissions --> 
                         </div>
 
                     </div>
@@ -100,8 +171,5 @@
     
     </div>
     <!-- END Page Content -->
-
-
-
 
 @endsection

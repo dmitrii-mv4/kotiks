@@ -52,21 +52,56 @@ return new class extends Migration
         [
             'id' => '4',
             'role_id' => '1',
-            'permission_id' => '5',
+            'permission_id' => '4',
             'created_at' => now(),
             'updated_at' => now()
         ],
         [
             'id' => '5',
             'role_id' => '1',
-            'permission_id' => '6',
+            'permission_id' => '5',
             'created_at' => now(),
             'updated_at' => now()
         ],
         [
             'id' => '6',
             'role_id' => '1',
+            'permission_id' => '6',
+            'created_at' => now(),
+            'updated_at' => now()
+        ],
+        [
+            'id' => '7',
+            'role_id' => '1',
             'permission_id' => '7',
+            'created_at' => now(),
+            'updated_at' => now()
+        ],
+        [
+            'id' => '8',
+            'role_id' => '1',
+            'permission_id' => '8',
+            'created_at' => now(),
+            'updated_at' => now()
+        ],
+        [
+            'id' => '9',
+            'role_id' => '1',
+            'permission_id' => '9',
+            'created_at' => now(),
+            'updated_at' => now()
+        ],
+        [
+            'id' => '10',
+            'role_id' => '1',
+            'permission_id' => '10',
+            'created_at' => now(),
+            'updated_at' => now()
+        ],
+        [
+            'id' => '11',
+            'role_id' => '1',
+            'permission_id' => '11',
             'created_at' => now(),
             'updated_at' => now()
         ],

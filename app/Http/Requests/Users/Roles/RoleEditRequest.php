@@ -24,6 +24,11 @@ class RoleEditRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:255',
             'show_admin' => '',
+            'users_viewAny' => '',
+            'users_view' => '',
+            'users_create' => '',
+            'users_update' => '',
+            'users_delete' => '',
         ];
     }
 

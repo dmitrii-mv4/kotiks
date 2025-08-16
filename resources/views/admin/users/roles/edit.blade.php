@@ -75,6 +75,7 @@
                     <div class="row g-sm push">
                     
                         <div class="block-content">
+
                             <!-- Basic Elements -->
                             <h2 class="content-heading pt-0">Общее</h2>
                             <div class="row g-sm push push">
@@ -90,6 +91,132 @@
                                 </div>
                             </div>
                             <!-- END Basic Elements --> 
+
+                            <!-- Users Prermissions -->
+                            <h2 class="content-heading pt-0 mt-5">Пользователи</h2>
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-users_viewAny" 
+                                        name="users_viewAny"
+                                        @if($role->permissions->contains('name', 'users_viewAny')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-users_viewAny">Просмотр всех пользователей</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-users_view" 
+                                        name="users_view"
+                                        @if($role->permissions->contains('name', 'users_view')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-users_view">Просмотр профиль пользователя</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-users_create" 
+                                        name="users_create"
+                                        @if($role->permissions->contains('name', 'users_create')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-users_create">Создание пользователя</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-users_update" 
+                                        name="users_update"
+                                        @if($role->permissions->contains('name', 'users_update')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-users_update">Редактирование пользователя</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-users_delete" 
+                                        name="users_delete"
+                                        @if($role->permissions->contains('name', 'users_delete')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-users_delete">Удаление пользователя</label>
+                                </div>
+                            </div>
+                            
+                            <!-- END Users Prermissions --> 
+
+                            <!-- Roles Prermissions -->
+                            <h2 class="content-heading pt-0 mt-5">Роли</h2>
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-roles_viewAny" 
+                                        name="roles_viewAny"
+                                        @if($role->permissions->contains('name', 'roles_viewAny')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_viewAny">Просмотр всех ролей</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-roles_create" 
+                                        name="roles_create"
+                                        @if($role->permissions->contains('name', 'roles_create')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_create">Создание роли</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-roles_update" 
+                                        name="roles_update"
+                                        @if($role->permissions->contains('name', 'roles_update')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_update">Редактирование роли</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-sm push push">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="1" 
+                                        id="access-admin-checkbox-roles_delete" 
+                                        name="roles_delete"
+                                        @if($role->permissions->contains('name', 'roles_delete')) checked @endif>
+                                    <label class="form-check-label" for="access-admin-checkbox-roles_delete">Удаление роли</label>
+                                </div>
+                            </div>
+
+                            <!-- END Roles Prermissions --> 
+
                         </div>
 
                     </div>
@@ -107,8 +234,5 @@
     
     </div>
     <!-- END Page Content -->
-
-
-
 
 @endsection

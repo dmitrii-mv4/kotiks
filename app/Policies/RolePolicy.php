@@ -13,6 +13,17 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
+        // Получаем все разрешения пользователя
+        $permissions = $user->permissions;
+
+        // Поиск конкретного разрешения по имени
+        $showPermission = $permissions->firstWhere('name', 'roles_viewAny');
+
+        if ($showPermission)
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -29,22 +40,55 @@ class RolePolicy
      */
     public function create(User $user): bool
     {
+        // Получаем все разрешения пользователя
+        $permissions = $user->permissions;
+
+        // Поиск конкретного разрешения по имени
+        $showPermission = $permissions->firstWhere('name', 'roles_create');
+
+        if ($showPermission)
+        {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Role $role): bool
+    public function update(User $user): bool
     {
+        // Получаем все разрешения пользователя
+        $permissions = $user->permissions;
+
+        // Поиск конкретного разрешения по имени
+        $showPermission = $permissions->firstWhere('name', 'roles_update');
+
+        if ($showPermission)
+        {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Role $role): bool
+    public function delete(User $user): bool
     {
+        // Получаем все разрешения пользователя
+        $permissions = $user->permissions;
+
+        // Поиск конкретного разрешения по имени
+        $showPermission = $permissions->firstWhere('name', 'roles_delete');
+
+        if ($showPermission)
+        {
+            return true;
+        }
+
         return false;
     }
 
