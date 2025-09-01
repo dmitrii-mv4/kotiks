@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\Interface\MenuController;
 
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
@@ -28,5 +29,15 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get('/edit/{role}', 'edit')->middleware(['roles_update'])->name('admin.roles.edit');
         Route::patch('/edit/{role}', 'update')->middleware(['roles_update'])->name('admin.roles.update');
         Route::delete('/delete/{role}', 'delete')->middleware(['roles_delete'])->name('admin.roles.delete');
+    });
+
+    Route::prefix('/interface')->group(function () 
+    {
+        Route::prefix('/menu')->controller(MenuController::class)->group(function () 
+        {
+            Route::get('/', 'index')->name('admin.interface.menu.index');
+            Route::get('/create', 'create')->name('admin.interface.menu.create');
+            Route::post('/store', 'store')->name('admin.interface.menu.store');
+        });
     });
 });

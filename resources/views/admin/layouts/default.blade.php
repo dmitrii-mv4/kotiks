@@ -18,6 +18,7 @@
     <!-- END Icons -->
 
     <!-- Dashmix framework -->
+    <link rel="stylesheet" id="css-main" href="/assets/admin/css/custom.css">
     <link rel="stylesheet" id="css-main" href="/assets/admin/css/dashmix.min.css">
 </head>
 <body>
@@ -580,12 +581,12 @@
 
                 <li class="nav-main-item">
                   <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                    <i class="nav-main-link-icon fa fa-cog"></i>
+                    <i class="nav-main-link-icon fa fa-grip-horizontal"></i>
                     <span class="nav-main-link-name">Интерфейс</span>
                   </a>
                   <ul class="nav-main-submenu">
                     <li class="nav-main-item">
-                      <a href="" class="nav-main-link">
+                      <a href="{{ route('admin.interface.menu.index') }}" class="nav-main-link">
                         <span class="nav-main-link-name">Настройки меню</span>
                       </a>
                     </li>
@@ -823,6 +824,7 @@
       <!-- END Footer -->
     </div>    
 
+    <script src="/assets/admin/js/custom.js"></script>
     <!--
       Dashmix JS
 

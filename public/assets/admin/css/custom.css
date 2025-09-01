@@ -1,0 +1,23 @@
+.add-item-btn {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.table-responsive {
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.action-btn {
+    font-size: 1.2rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-top: none;
+}
+
+.container {
+    max-width: 900px;
+}
