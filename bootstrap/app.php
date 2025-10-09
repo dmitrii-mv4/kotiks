@@ -33,6 +33,25 @@ return Application::configure(basePath: dirname(__DIR__))
             'roles_delete' => RolesDeleteMiddleware::class,
         ]);
     })
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+        then: function () {
+            $apiRoutesPath = base_path('routes/api');
+            
+            if (File::isDirectory($apiRoutesPath)) {
+                foreach (File::files($apiRoutesPath) as $file) {
+                    // Use the correct method to get the file extension
+                    if ($file->getExtension() === 'php') { // Or use: if ($file->extension() === 'php')
+                        Route::middleware('api') // Применяет middleware группу 'api'
+                            ->prefix('api') // This adds /api prefix to all routes in the file
+                            ->group($file->getPathname());
+                    }
+                }
+            }
+        },
+    )
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

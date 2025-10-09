@@ -546,8 +546,7 @@
                 </a>
               </li>
 
-              <li class="nav-main-heading">Модули</li>
-              
+              <li class="nav-main-heading">Системное</li>
 
               <li class="nav-main-item">
                 <a href="#" class="nav-main-link">
@@ -556,9 +555,47 @@
                 </a>
               </li>
 
+              <li class="nav-main-heading">Модули</li>
+
+              @forelse($allModuleData as $tableName => $items)
+                @if($items->count())
+                  @foreach($items as $item)
+                    <li class="nav-main-item">
+                        <a href="{{ route('admin.modules.' . $item->code . '.index') }}" class="nav-main-link">
+                        <i class="nav-main-link-icon fa fa-boxes"></i>
+                        <span class="nav-main-link-name">{{ $item->name }}</span>
+                      </a>
+                    </li>
+                  @endforeach
+                @endif
+
+              @empty
+           
+              <div class="block-content">
+                  <p class="fs-sm">Модули ещё не созданы</p>
+                </div>
+         
+              @endforelse
+
+              {{-- <li class="nav-main-heading">Инфоблоки</li>
+
+              <li class="nav-main-item">
+                <a href="#" class="nav-main-link">
+                  <i class="nav-main-link-icon fa fa-clone"></i>
+                  <span class="nav-main-link-name">Новости</span>
+                </a>
+              </li> --}}
+
               <li class="nav-main-item">
 
                 <li class="nav-main-heading">Настройки</li>
+
+                <li class="nav-main-item">
+                  <a href="{{ route('admin.modules') }}" class="nav-main-link">
+                    <i class="nav-main-link-icon fa fa-cog"></i>
+                    <span class="nav-main-link-name">Генератор модулей</span>
+                  </a>
+                </li>
 
                 <li class="nav-main-item">
                   <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
@@ -578,21 +615,6 @@
                     </li>
                   </ul>
                 </li>
-
-                <li class="nav-main-item">
-                  <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                    <i class="nav-main-link-icon fa fa-grip-horizontal"></i>
-                    <span class="nav-main-link-name">Интерфейс</span>
-                  </a>
-                  <ul class="nav-main-submenu">
-                    <li class="nav-main-item">
-                      <a href="{{ route('admin.interface.menu.index') }}" class="nav-main-link">
-                        <span class="nav-main-link-name">Настройки меню</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-
                 <li class="nav-main-item">
                   <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-cog"></i>

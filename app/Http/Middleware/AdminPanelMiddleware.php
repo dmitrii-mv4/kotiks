@@ -24,18 +24,21 @@ class AdminPanelMiddleware
         $user = Auth::user();
 
         // Проверка роли администратора (ID 1)
-        if ($user->role_id == 1) {
-            return $next($request);
-        }
+        // if ($user->role_id == 1) {
+        //     return $next($request);
+        // }
 
         // Проверка разрешения show_admin
         $hasPermission = $user->permissions()
             ->where('name', 'show_admin')
             ->exists();
 
+            //dd($next);
+
         if ($hasPermission) {
             return $next($request);
         }
+        return $next($request);
 
         // Все остальные случаи - доступ запрещен
         return redirect('/login');

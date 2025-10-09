@@ -1,0 +1,106 @@
+@extends('admin.layouts.default')
+
+@section('content')
+    <!-- Hero -->
+    <div class="content">
+        <div
+            class="d-md-flex justify-content-md-between align-items-md-center py-3 pt-md-3 pb-md-0 text-center text-md-start">
+            <div>
+                <h1 class="h3 mb-1">Модули</h1>
+            </div>
+            <div class="mt-4 mt-md-0">
+                <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Модули</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- END Hero -->
+
+    <!-- Page Content -->
+    <div class="content">
+        <a href="{{ route('admin.modules.create') }}">
+            <button type="button" class="btn btn-alt-success me-1 mb-3">
+                <i class="fa fa-fw fa-plus opacity-50 me-1"></i> Создать модуль
+            </button>
+        </a>
+
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">Список модулей</h3>
+            </div>
+            <div class="block-content">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-vcenter">
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Код</th>
+                                <th class="text-center" style="width: 100px;">Опции</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($allModuleData as $tableName => $items)
+
+                                @if($items->count())
+                                    @foreach($items as $item)
+                                    <tr>
+                                        <td class="fw-semibold">
+                                            {{ $item->name }}
+                                        </td>
+                                        <td class="fw-semibold">
+                                            {{ $item->code }}
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <form action="{{ route('admin.modules.delete', $item->code) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled" onclick="return confirm('Вы уверены?')" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                                </form>
+                                              
+                                                {{-- <a href="{{ route('admin.roles.edit', $role->id) }}" type="button"
+                                                    class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
+                                                    data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                </a>
+                                                <form action="{{ route('admin.roles.delete', $role->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <input type="hidden" name="role_id" value="{{ $role->id }}">
+
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
+                                                        data-bs-toggle="tooltip" aria-label="Delete"
+                                                        data-bs-original-title="Delete">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </form> --}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted">В этой таблице нет записей.</p>
+                                @endif
+
+                            @empty
+                                <div class="alert alert-warning">
+                                    Таблицы с модулями не найдены в базе данных.
+                                </div>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- END Page Content -->
+@endsection
