@@ -135,7 +135,7 @@ class CreateModuleController extends Controller
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
             
             // === Удаление миграций
-            $migrationPath = database_path('migrations');
+            $migrationPath = database_path('migrations/modules/');
 
             // Ищем файлы по паттернам
             $mainModulePattern = '*'.$module.'_main__module_table.php';
@@ -160,7 +160,7 @@ class CreateModuleController extends Controller
             $modelModule = Str::studly($module);
 
             $modelPaths = [
-                app_path('Models/'), // Стандартный путь к моделям
+                app_path('Models/Modules/'), // Стандартный путь к моделям
                 // app_path('Admin/Modules/'), // Раскомментируйте, если ваши модели в поддиректориях
             ];
 
@@ -237,8 +237,8 @@ class CreateModuleController extends Controller
 
             // === Удаление языковых файлов модуля ===
             $langPaths = [
-                resource_path('lang/en/' . $module . '.php'),
-                resource_path('lang/ru/' . $module . '.php'),
+                resource_path('lang/en/modules/' . $module . '.php'),
+                resource_path('lang/ru/modules/' . $module . '.php'),
             ];
 
             $deletedLangFiles = [];
@@ -274,7 +274,7 @@ class CreateModuleController extends Controller
 
             // === Удаление router API ===
             // Формируем путь к файлу
-            $routerApiFile = base_path('routes/api/' . $module . '.php');
+            $routerApiFile = base_path('routes/api/modules/' . $module . '.php');
 
             // Проверяем существование файла ДЕЙСТВИТЕЛЬНО простым способом
             if (file_exists($routerApiFile)) {

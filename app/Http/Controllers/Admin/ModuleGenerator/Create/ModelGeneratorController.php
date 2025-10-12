@@ -9,23 +9,33 @@ use Illuminate\Support\Facades\File;
 class ModelGeneratorController extends CreateModuleController
 {
     /**
+     * Создаём папку для моделей Modules если не существует
+     */
+    private function ensureModulesModelDir()
+    {
+        $modulesModelPath = app_path('Models/Modules');
+        if (!File::exists($modulesModelPath)) {
+            File::makeDirectory($modulesModelPath, 0755, true);
+        }
+        return $modulesModelPath;
+    }
+
+    /**
      * Создаём модель Main для модуля
      * Главная модель которая отвечает за информацию о модуле
      */
     public function createModelMain($modelNameMain, $tableNameMain, $validated)
     {
-        Artisan::call('make:model', ['name' => $modelNameMain]);
-
-        $modelPath = app_path("Models/$modelNameMain.php");
-
-        if (!File::exists($modelPath)) {
-            throw new \Exception("Файл модели не найден: ".$modelPath);
-        }
-
+        // 1. Создаем папку Modules если нужно
+        $modelDir = $this->ensureModulesModelDir();
+        
+        // 2. Создаем файл модели в правильной папке
+        $modelPath = app_path("Models/Modules/$modelNameMain.php");
+        
         $content = <<<PHP
 <?php
 
-namespace App\Models;
+namespace App\Models\Modules;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,6 +52,12 @@ class $modelNameMain extends Model
 PHP;
 
         File::put($modelPath, $content);
+        
+        if (!File::exists($modelPath)) {
+            throw new \Exception("Файл модели не найден: ".$modelPath);
+        }
+        
+        return "Модель создана: " . $modelPath;
     }
 
     /**
@@ -49,18 +65,13 @@ PHP;
      */
     public function createModelPropertiesTitle($modelNamePropertiesTitle, $tableNamePropertiesTitle, $validated)
     {
-        Artisan::call('make:model', ['name' => $modelNamePropertiesTitle]);
-
-        $modelPath = app_path("Models/$modelNamePropertiesTitle.php");
-
-        if (!File::exists($modelPath)) {
-            throw new \Exception("Файл модели не найден: ".$modelPath);
-        }
-
+        $modelDir = $this->ensureModulesModelDir();
+        $modelPath = app_path("Models/Modules/$modelNamePropertiesTitle.php");
+        
         $content = <<<PHP
 <?php
 
-namespace App\Models;
+namespace App\Models\Modules;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -77,6 +88,8 @@ class $modelNamePropertiesTitle extends Model
 PHP;
 
         File::put($modelPath, $content);
+        
+        return "Модель создана: " . $modelPath;
     }
 
     /**
@@ -84,20 +97,14 @@ PHP;
      */
     public function createModel($modelName, $tableName, $validated)
     {
-        Artisan::call('make:model', ['name' => $modelName]);
-
-        $modelPath = app_path("Models/$modelName.php");
-
-        if (!File::exists($modelPath)) {
-            throw new \Exception("Файл модели не найден: ".$modelPath);
-        }
+        $modelDir = $this->ensureModulesModelDir();
+        $modelPath = app_path("Models/Modules/$modelName.php");
 
         // Формируем массив fillable полей
         $fillableFields = [];
         
         if (isset($validated['code_property']) && is_array($validated['code_property'])) {
             foreach ($validated['code_property'] as $field) {
-                // Убираем лишние пробелы и добавляем в массив
                 $field = trim($field);
                 if (!empty($field)) {
                     $fillableFields[] = $field;
@@ -111,13 +118,12 @@ PHP;
             $fillableString .= "        '$field',\n";
         }
         
-        // Убираем последнюю запятую и перенос строки
         $fillableString = rtrim($fillableString, ",\n");
 
         $content = <<<PHP
 <?php
 
-namespace App\Models;
+namespace App\Models\Modules;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -136,5 +142,7 @@ $fillableString
 PHP;
 
         File::put($modelPath, $content);
+        
+        return "Модель создана: " . $modelPath;
     }
 }

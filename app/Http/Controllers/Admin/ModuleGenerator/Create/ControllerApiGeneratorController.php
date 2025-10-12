@@ -46,7 +46,7 @@ class ControllerApiGeneratorController extends CreateModuleController
 namespace App\Http\Controllers\Api\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Models\\$modelName;
+use App\Models\Modules\\$modelName;
 use Illuminate\Http\JsonResponse;
 
 class $controllerName extends Controller

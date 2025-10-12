@@ -22,8 +22,8 @@ class LangGeneratorController extends CreateModuleController
             $translations[$codeProperty] = addslashes($nameProperty);
         }
         
-        $ruPath = resource_path("lang/ru/$moduleName.php");
-        $enPath = resource_path("lang/en/$moduleName.php");
+        $ruPath = resource_path("lang/ru/modules/$moduleName.php");
+        $enPath = resource_path("lang/en/modules/$moduleName.php");
         
         File::ensureDirectoryExists(dirname($ruPath));
         File::ensureDirectoryExists(dirname($enPath));

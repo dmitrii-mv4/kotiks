@@ -194,7 +194,7 @@ BLADE;
                     @foreach ($columnsDetails as $columnName => $columnType)
                         <div class="row push">
                             <div class="col-lg-3">
-                                <label for="{{ $columnName }}">@lang($moduleData->code . '.' . $columnName)</label>
+                                <label for="{{ $columnName }}">{{ trans("modules/{$moduleData->code}.{$columnName}") }}</label>
                             </div>
                             <div class="col-lg-8 col-xl-5">
                                 <div class="mb-4">

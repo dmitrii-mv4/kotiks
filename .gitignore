@@ -23,3 +23,12 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/app/Http/Controllers/Admin/Modules
+/app/Http/Controllers/Api/Modules
+/app/Http/Requests/Modules
+/app/Models/Modules
+/resources/views/admin/modules
+/resources/lang/en/modules
+/resources/lang/ru/modules
+/routes/api/modules
+/database/migrations/modules

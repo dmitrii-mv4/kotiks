@@ -39,8 +39,8 @@ use App\Http\Requests\Modules\\$pathRequests;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Schema;
-use App\Models\\$modelNameMain;
-use App\Models\\$modelName;
+use App\Models\Modules\\$modelNameMain;
+use App\Models\Modules\\$modelName;
 
 class {$controllerName} extends Controller
 {

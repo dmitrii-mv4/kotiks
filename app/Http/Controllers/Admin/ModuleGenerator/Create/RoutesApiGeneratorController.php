@@ -12,7 +12,7 @@ class RoutesApiGeneratorController extends CreateModuleController
     public function createRoutesAPI($validated)
     {
         $nameModuleCode = $validated['code'];
-        $routesApiPath = base_path('routes/api/');
+        $routesApiPath = base_path('routes/api/modules/');
 
         // Create the directory if it doesn't exist
         if (!File::isDirectory($routesApiPath)) {
