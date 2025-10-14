@@ -509,16 +509,16 @@
               <!-- Toggle Sidebar Style -->
               <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
               <!-- Class Toggle, functionality initialized in Helpers.dmToggleClass() -->
-              <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on" onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
+              {{-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on" onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
                 <i class="fa fa-toggle-off" id="sidebar-style-toggler"></i>
-              </button>
+              </button> --}}
               <!-- END Toggle Sidebar Style -->
 
               <!-- Dark Mode -->
               <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-              <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle');">
+              {{-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle');">
                 <i class="far fa-moon" id="dark-mode-toggler"></i>
-              </button>
+              </button> --}}
               <!-- END Dark Mode -->
 
               <!-- Close Sidebar, Visible only on mobile screens -->
@@ -670,32 +670,29 @@
                 <i class="fa fa-fw fa-angle-down opacity-50 ms-1 d-none d-sm-inline-block"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="page-header-user-dropdown">
-                <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
+                {{-- <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
                   User Options
-                </div>
+                </div> --}}
                 <div class="p-2">
-                  <a class="dropdown-item" href="be_pages_generic_profile.html">
-                    <i class="far fa-fw fa-user me-1"></i> Profile
+                  <a class="dropdown-item" href="{{ route('admin.users.edit', auth()->user()->id) }}">
+                    <i class="far fa-fw fa-user me-1"></i> Профиль
                   </a>
-                  <a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_inbox.html">
+                  {{-- <a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_inbox.html">
                     <span><i class="far fa-fw fa-envelope me-1"></i> Inbox</span>
                     <span class="badge bg-primary rounded-pill">3</span>
-                  </a>
-                  <a class="dropdown-item" href="be_pages_generic_invoice.html">
-                    <i class="far fa-fw fa-file-alt me-1"></i> Invoices
-                  </a>
+                  </a> --}}
                   <div role="separator" class="dropdown-divider"></div>
 
                   <!-- Toggle Side Overlay -->
                   <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                  <a class="dropdown-item" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">
-                    <i class="far fa-fw fa-building me-1"></i> Settings
+                  <a class="dropdown-item" href="{{ route('admin.users.edit', auth()->user()->id) }}">
+                    <i class="far fa-fw fa-building me-1"></i> Настройки
                   </a>
                   <!-- END Side Overlay -->
 
                   <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="op_auth_signin.html">
-                    <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i> Sign Out
+                  <a class="dropdown-item" href="{{ route('auth.logout') }}">
+                    <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i> Выйти
                   </a>
                 </div>
               </div>
@@ -779,9 +776,9 @@
 
             <!-- Toggle Side Overlay -->
             <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-            <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle">
+            {{-- <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle">
               <i class="far fa-fw fa-list-alt"></i>
-            </button>
+            </button> --}}
             <!-- END Toggle Side Overlay -->
           </div>
           <!-- END Right Section -->

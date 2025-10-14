@@ -4,34 +4,50 @@ namespace App\Http\Controllers\Admin\ModuleGenerator\Create;
 
 use App\Http\Controllers\Admin\ModuleGenerator\CreateModuleController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ViewsGeneratorController extends CreateModuleController
 {
+    /**
+     * Создание директории если не существует
+     */
+    private function modulesViewsDir($moduleNameCode = null)
+    {
+        $viewsPath = resource_path('views/admin/modules/');
+
+        // Проверяем существование папки modules
+        if (!File::exists($viewsPath)) {
+            // Создаем папку modules вместе со всеми необходимыми родительскими папками
+            File::makeDirectory($viewsPath, 0755, true);
+        }
+
+        // Если передан код модуля, создаем и возвращаем путь к папке модуля
+        if ($moduleNameCode) {
+            $modulePath = $viewsPath . $moduleNameCode . '/';
+            
+            // Создаем папку для конкретного модуля
+            if (!File::exists($modulePath)) {
+                File::makeDirectory($modulePath, 0755, true);
+            }
+            
+            return $modulePath;
+        }
+
+        return $viewsPath;
+    }
+
     /**
      * Главная страница модуля
      */
     public function createViewsIndex($validated)
     {
-    $viewsPath = resource_path('views/admin/modules/');
-    $moduleNameCode = $validated['code'];
+        $moduleNameCode = $validated['code'];
 
-    $dirName = $viewsPath . $moduleNameCode;
+        // Создаем папку Modules если нужно и получаем путь к папке модуля
+        $moduleDir = $this->modulesViewsDir($moduleNameCode);
 
-    // Создаем директорию рекурсивно
-    if (!file_exists($dirName)) 
-    {
-        if (!mkdir($dirName, 0777, true))  // Добавлен третий параметр true
-        {
-            echo "Не удалось создать директорию '$dirName'.";
-            echo "Путь: " . $dirName;
-            echo "Базовая директория существует: " . (file_exists($viewsPath) ? 'Да' : 'Нет');
-        }
-    } else {
-        echo "Директория '$dirName' уже существует.";
-    }
-
-    // Определяем содержимое ДО его использования
-    $content = <<<'BLADE'
+        // Определяем содержимое ДО его использования
+        $content = <<<'BLADE'
 @extends('admin.layouts.default')
 
 @section('content')
@@ -107,7 +123,24 @@ class ViewsGeneratorController extends CreateModuleController
                                     <td>-</td> <!-- Если столбца нет -->
                                 @endif
                                 <td class="text-center">
-                                    -
+                                    <a href="{{ route('admin.modules.'.$moduleData->code.'.edit', $item->id) }}" type="button"
+                                        class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
+                                        data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </a>
+                                    <form action="{{ route('admin.modules.' . $moduleData->code . '.delete', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <input type="hidden" name="module_id" value="{{ $item->id }}">
+
+                                        <button type="submit"
+                                            class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
+                                            data-bs-toggle="tooltip" aria-label="Delete"
+                                            data-bs-original-title="Delete">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
@@ -123,17 +156,16 @@ class ViewsGeneratorController extends CreateModuleController
 BLADE;
 
         // Создаём файл index
-        // Полный путь к файлу (внутри созданной директории)
-        $fullPath = $dirName . '/index.blade.php';
+        $fullPath = $moduleDir . '/index.blade.php';
 
         // Создаем файл и записываем содержимое
         if (!file_put_contents($fullPath, $content) !== false) 
         {
-            $result = "Ошибка создания view";
+            throw new \Exception("Ошибка создания view index для модуля: " . $moduleNameCode);
         }
 
         // Создаём название view файла и возвращаем
-        return $moduleNameCode . '.index';
+        return 'admin.modules.' . $moduleNameCode . '.index';
     }
 
     /**
@@ -141,23 +173,10 @@ BLADE;
      */
     public function createViewsCreate($validated)
     {
-        $viewsPath = resource_path('views/admin/modules/');
         $moduleNameCode = $validated['code'];
 
-        $dirName = $viewsPath . $moduleNameCode;
-
-        // Создаем директорию рекурсивно
-        if (!file_exists($dirName)) 
-        {
-            if (!mkdir($dirName, 0777, true))  // Добавлен третий параметр true
-            {
-                echo "Не удалось создать директорию '$dirName'.";
-                echo "Путь: " . $dirName;
-                echo "Базовая директория существует: " . (file_exists($viewsPath) ? 'Да' : 'Нет');
-            }
-        } else {
-            echo "Директория '$dirName' уже существует.";
-        }
+        // Создаем папку Modules если нужно и получаем путь к папке модуля
+        $moduleDir = $this->modulesViewsDir($moduleNameCode);
 
         // Определяем содержимое ДО его использования
     $content = <<<'BLADE'
@@ -222,17 +241,102 @@ BLADE;
 
 BLADE;
 
-        // Создаём файл create
-        // Полный путь к файлу (внутри созданной директории)
-        $fullPath = $dirName . '/create.blade.php';
+        // Создаём файл index
+        $fullPath = $moduleDir . '/create.blade.php';
 
         // Создаем файл и записываем содержимое
         if (!file_put_contents($fullPath, $content) !== false) 
         {
-            $result = "Ошибка создания view";
+            throw new \Exception("Ошибка создания view create для модуля: " . $moduleNameCode);
         }
 
         // Создаём название view файла и возвращаем
-        return $moduleNameCode . '.create';
+        return 'admin.modules.' . $moduleNameCode . '.create';
+    }
+
+    /**
+     * Страница изменения записей в модуле
+     */
+    public function editViewsCreate($validated)
+    {
+        $moduleNameCode = $validated['code'];
+
+        // Создаем папку Modules если нужно и получаем путь к папке модуля
+        $moduleDir = $this->modulesViewsDir($moduleNameCode);
+
+        // Определяем содержимое ДО его использования
+        $content = <<<'BLADE'
+@extends('admin.layouts.default')
+
+@section('content')
+    <!-- Hero -->
+    <div class="content">
+        <div
+            class="d-md-flex justify-content-md-between align-items-md-center py-3 pt-md-3 pb-md-0 text-center text-md-start">
+            <div>
+                <h1 class="h3 mb-1">Редактирование записи</h1>
+            </div>
+            <div class="mt-4 mt-md-0">
+                <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.modules.' . $moduleData['code'] . '.index') }}">{{ $moduleData['name'] }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Редактирование записи</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- END Hero -->
+
+    <div class="content">
+        <div class="block block-rounded">
+            <div class="block-content">
+                <form action="{{ route('admin.modules.'. $moduleData['code'] . '.update', $news->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('patch')
+                    <!-- Basic Elements -->
+                    @foreach ($columnsDetails as $columnName => $columnType)
+                        <div class="row push">
+                            <div class="col-lg-3">
+                                <label for="{{ $columnName }}">{{ trans("modules/{$moduleData->code}.{$columnName}") }}</label>
+                            </div>
+                            <div class="col-lg-8 col-xl-5">
+                                <div class="mb-4">
+                                    @if($columnType == 'varchar' || $columnType == 'string')
+                                        <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ $news->$columnName }}">
+                                    @elseif($columnType == 'text')
+                                        <textarea class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" rows="4">{{ $news->$columnName }}</textarea>
+                                    @elseif($columnType == 'int')
+                                        <input type="number" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ $news->$columnName }}">
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <button class="btn btn-alt-success me-1 mb-3">
+                        <i class="fa fa-fw fa-plus opacity-50 me-1"></i> Изменить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+BLADE;
+
+        // Создаём файл index
+        $fullPath = $moduleDir . '/edit.blade.php';
+
+        // Создаем файл и записываем содержимое
+        if (!file_put_contents($fullPath, $content) !== false) 
+        {
+            throw new \Exception("Ошибка создания view edit для модуля: " . $moduleNameCode);
+        }
+
+        // Создаём название view файла и возвращаем
+        return 'admin.modules.' . $moduleNameCode . '.edit';
     }
 }

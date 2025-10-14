@@ -2,12 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
+
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

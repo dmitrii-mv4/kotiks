@@ -32,19 +32,30 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
                 continue; // Пропускаем если свойство не существует
             }
 
+            // $nameCodeModule = '$item->code';
+
             // Создаем префикс для группы роутов
             $prefix = '/modules/' . $item->code;
 
             // Регистрируем маршруты ДЛЯ КАЖДОГО элемента
             Route::prefix($prefix)->group(function () use ($controllerName, $item) {
                 Route::get('/', [$controllerName, 'index'])
-                    ->name('admin.modules.' . $item->code . '.index'); // Добавлен суффикс .index
+                    ->name('admin.modules.' . $item->code . '.index');
                         
                 Route::get('/create', [$controllerName, 'create'])
                     ->name('admin.modules.' . $item->code . '.create');
 
                 Route::patch('/store', [$controllerName, 'store'])
                     ->name('admin.modules.' . $item->code . '.store');
+
+                Route::get('/edit/{'.$item->code.'}', [$controllerName, 'edit'])
+                    ->name('admin.modules.' . $item->code . '.edit');
+
+                Route::patch('/update{id}', [$controllerName, 'update'])
+                     ->name('admin.modules.' . $item->code . '.update');
+
+                Route::delete('/delete{'.$item->code.'}', [$controllerName, 'delete'])
+                     ->name('admin.modules.' . $item->code . '.delete');
             });
         }
     }

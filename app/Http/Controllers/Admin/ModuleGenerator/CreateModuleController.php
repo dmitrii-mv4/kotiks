@@ -72,12 +72,14 @@ class CreateModuleController extends Controller
         // Генерируем Views и возвращаем название файла view
         $indexViewName = $viewsGenerator->createViewsIndex($validated);
         $createViewName = $viewsGenerator->createViewsCreate($validated);
+        $updateViewName = $viewsGenerator->editViewsCreate($validated);
 
         // Генерируем Request
         $requestGenerator->createRequest($validated);
+        $requestGenerator->updateRequest($validated);
 
         // Генерируем контроллер
-        $controllerGenerator->createController($controllerName, $modelNameMain, $modelName, $indexViewName, $createViewName, $validated);
+        $controllerGenerator->createController($controllerName, $modelNameMain, $modelName, $indexViewName, $createViewName, $updateViewName, $validated);
 
         // Генерируем lang файлы
         $langsGenerator->createLangs($validated);

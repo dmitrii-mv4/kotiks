@@ -38,7 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            $apiRoutesPath = base_path('routes/api');
+            $apiRoutesPath = base_path('routes/api/modules');
             
             if (File::isDirectory($apiRoutesPath)) {
                 foreach (File::files($apiRoutesPath) as $file) {
