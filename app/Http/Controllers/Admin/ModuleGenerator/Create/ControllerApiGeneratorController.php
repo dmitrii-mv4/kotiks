@@ -14,10 +14,6 @@ class ControllerApiGeneratorController extends CreateModuleController
         $nameModuleCode = $validated['code'];
         $nameModule = $validated['name'];
 
-        // $validated['property']; // нужно добавить в type
-        // $validated['code_property']; // нужно добавить в name там где items
-        // $validated['name_property']; // нужно добавить в name_value
-
         // 1. Определяем путь и имя для Artisan
         $artisanControllerName = 'Api/Modules/' . $controllerName;
 

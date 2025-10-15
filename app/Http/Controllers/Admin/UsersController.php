@@ -64,11 +64,18 @@ class UsersController extends Controller
 
         // $this->authorize('update', \App\Models\User::class);
 
-        $user->update([
+        $updateData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role_id' => $validated['role_id'],
-        ]);
+        ];
+
+        // Обновляем пароль только если он указан и не пустой
+        if (!empty($validated['password'])) {
+            $updateData['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($updateData);
 
         return redirect()->route('admin.users')->with('success', 'Пользователь обновлён');
     }

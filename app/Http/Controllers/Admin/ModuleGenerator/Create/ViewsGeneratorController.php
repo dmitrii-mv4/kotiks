@@ -77,7 +77,7 @@ class ViewsGeneratorController extends CreateModuleController
                 <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                   <div class="me-3">
                     <p class="fs-3 fw-medium mb-0">
-                      {{ $items->count() }}
+                      {{ $items->total() }}
                     </p>
                     <p class="text-muted mb-0">
                       Всего записей
@@ -85,6 +85,23 @@ class ViewsGeneratorController extends CreateModuleController
                   </div>
                   <div>
                     <i class="fa fa-2x fa-box text-warning"></i>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-md-6 col-xl-3">
+              <a href="/api/{{ $moduleData['code'] }}" target="_blank" class="block block-rounded block-link-pop">
+                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                  <div class="me-3">
+                    <p class="fs-3 fw-medium mb-0">
+                      API модуля
+                    </p>
+                    <p class="text-muted mb-0">
+                      api/{{ $moduleData['code'] }}
+                    </p>
+                  </div>
+                  <div>
+                    <i class="fa fa-2x fa-chart-area text-danger"></i>
                   </div>
                 </div>
               </a>
@@ -123,30 +140,92 @@ class ViewsGeneratorController extends CreateModuleController
                                     <td>-</td> <!-- Если столбца нет -->
                                 @endif
                                 <td class="text-center">
-                                    <a href="{{ route('admin.modules.'.$moduleData->code.'.edit', $item->id) }}" type="button"
-                                        class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
-                                        data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </a>
-                                    <form action="{{ route('admin.modules.' . $moduleData->code . '.delete', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <input type="hidden" name="module_id" value="{{ $item->id }}">
-
-                                        <button type="submit"
+                                    <div class="btn-group">
+                                        <a href="{{ route('admin.modules.'.$moduleData->code.'.edit', $item->id) }}" type="button"
                                             class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
-                                            data-bs-toggle="tooltip" aria-label="Delete"
-                                            data-bs-original-title="Delete">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </form>
+                                            data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                        <form action="{{ route('admin.modules.' . $moduleData->code . '.delete', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <input type="hidden" name="module_id" value="{{ $item->id }}">
+
+                                            <button type="submit"
+                                                class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
+                                                data-bs-toggle="tooltip" aria-label="Delete"
+                                                data-bs-original-title="Delete">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Pagination -->
+                @if($items->hasPages())
+                  <div class="row">
+                      <div class="col-sm-12 col-md-5">
+                          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+                              Показано с {{ $items->firstItem() }} по {{ $items->lastItem() }} из {{ $items->total() }} записей
+                          </div>
+                      </div>
+                      <div class="col-sm-12 col-md-7">
+                          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                              <ul class="pagination">
+                                  {{-- Previous Page Link --}}
+                                  @if ($items->onFirstPage())
+                                      <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                                          <a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" data-dt-idx="previous" tabindex="0" class="page-link">
+                                              <i class="fa fa-angle-left"></i>
+                                          </a>
+                                      </li>
+                                  @else
+                                      <li class="paginate_button page-item previous" id="DataTables_Table_0_previous">
+                                          <a href="{{ $items->previousPageUrl() }}" aria-controls="DataTables_Table_0" role="link" data-dt-idx="previous" tabindex="0" class="page-link">
+                                              <i class="fa fa-angle-left"></i>
+                                          </a>
+                                      </li>
+                                  @endif
+
+                                  {{-- Pagination Elements --}}
+                                  @foreach ($items->getUrlRange(1, $items->lastPage()) as $page => $url)
+                                      @if ($page == $items->currentPage())
+                                          <li class="paginate_button page-item active">
+                                              <a href="#" aria-controls="DataTables_Table_0" role="link" aria-current="page" data-dt-idx="{{ $page }}" tabindex="0" class="page-link">{{ $page }}</a>
+                                          </li>
+                                      @else
+                                          <li class="paginate_button page-item">
+                                              <a href="{{ $url }}" aria-controls="DataTables_Table_0" role="link" data-dt-idx="{{ $page }}" tabindex="0" class="page-link">{{ $page }}</a>
+                                          </li>
+                                      @endif
+                                  @endforeach
+
+                                  {{-- Next Page Link --}}
+                                  @if ($items->hasMorePages())
+                                      <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                          <a href="{{ $items->nextPageUrl() }}" aria-controls="DataTables_Table_0" role="link" data-dt-idx="next" tabindex="0" class="page-link">
+                                              <i class="fa fa-angle-right"></i>
+                                          </a>
+                                      </li>
+                                  @else
+                                      <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+                                          <a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" data-dt-idx="next" tabindex="0" class="page-link">
+                                              <i class="fa fa-angle-right"></i>
+                                          </a>
+                                      </li>
+                                  @endif
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                @endif
+                <!-- end Pagination -->
             </div>
         </div>
     </div>

@@ -57,7 +57,7 @@ class {$controllerName} extends Controller
         \$moduleData = \$moduleData['0'];
 
         // Выводим все записи
-        \$items = $modelName::orderBy('id')->get();
+        \$items = $modelName::orderBy('id')->paginate(10);
 
         // Получаем список всех столбцов таблицы
         \$tableName = (new $modelName)->getTable();
