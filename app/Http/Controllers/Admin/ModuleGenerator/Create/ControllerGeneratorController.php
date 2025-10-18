@@ -134,7 +134,7 @@ class {$controllerName} extends Controller
         }
     }
 
-    public function edit($modelName \$$nameModuleCode)
+    public function edit($modelName \$item)
     {
         // Получаем все данные через модель
         \$moduleData = $modelNameMain::get();
@@ -166,7 +166,7 @@ class {$controllerName} extends Controller
             }
         }
 
-        return view('$updateViewName', compact('moduleData', 'columnsName', 'columnsDetails', 'news'));
+        return view('$updateViewName', compact('moduleData', 'columnsName', 'columnsDetails', 'item'));
     }
 
     public function update($updateRequest \$request, \$id)
@@ -189,10 +189,10 @@ class {$controllerName} extends Controller
         }
     }
 
-    public function delete($modelName \$$nameModuleCode)
+    public function delete($modelName \$item)
     {
-        \$news->delete();
-        return redirect()->route('admin.modules.' . strtolower('news') . '.index')->with('success', 'Запись удалена');
+        \$item->delete();
+        return redirect()->back()->with('success', 'Запись удалена');
     }
 }";
         // Записываем изменения в файл

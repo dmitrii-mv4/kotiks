@@ -38,11 +38,11 @@
                         Свойства
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    {{-- <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" id="prermissions-tab" data-bs-toggle="tab" data-bs-target="#prermissions" role="tab" aria-controls="search-photos" aria-selected="false" tabindex="-1">
-                        Полномочия
+                        Права доступов
                         </button>
-                    </li>
+                    </li> --}}
                 </ul>
                 <div class="block-content tab-content overflow-hidden">
                 <!-- Main -->
@@ -78,6 +78,13 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <i class="fa-solid fa-circle-question" 
+                                        data-bs-toggle="tooltip" 
+                                        data-bs-placement="top" 
+                                        title="Используется при создании таблицы в БД в названии и URL страницах"
+                                        style="cursor: pointer; margin-top: 10px; color: #6c757d;"></i>
                                     </div>
                                 </div>
 
@@ -249,96 +256,26 @@
                 <!-- END Properties -->
 
                 <!-- Prermissions -->
-                <div class="tab-pane fade" id="prermissions" role="tabpanel" aria-labelledby="prermissions-tab" tabindex="0">
+                {{-- <div class="tab-pane fade" id="prermissions" role="tabpanel" aria-labelledby="prermissions-tab" tabindex="0">
                     <div class="row g-sm push">
                     
                         <div class="block-content">
 
                             <!-- Basic Prermissions -->
-                            <h2 class="content-heading pt-0">Общее</h2>
+                            <h2 class="content-heading pt-0">Администраторы</h2>
                             <div class="row g-sm push push">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-default1" name="show_admin">
-                                    <label class="form-check-label" for="access-admin-checkbox-default1">Доступ к панели администратора</label>
+                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-default1" name="viewAny">
+                                    <label class="form-check-label" for="access-admin-checkbox-default1">Показывать все записи</label>
                                 </div>
                             </div>
                             <!-- END Basic Prermissions --> 
-
-                            <!-- Users Prermissions -->
-                            <h2 class="content-heading pt-0 mt-5">Пользователи</h2>
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_viewAny" name="users_viewAny">
-                                    <label class="form-check-label" for="access-admin-checkbox-users_viewAny">Просмотр всех пользователей</label>
-                                </div>
-                            </div>
-
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_view" name="users_view">
-                                    <label class="form-check-label" for="access-admin-checkbox-users_view">Просмотр профиль пользователя</label>
-                                </div>
-                            </div>
-
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_create" name="users_create">
-                                    <label class="form-check-label" for="access-admin-checkbox-users_create">Создание пользователя</label>
-                                </div>
-                            </div>
-
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_update" name="users_update">
-                                    <label class="form-check-label" for="access-admin-checkbox-users_update">Редактирование пользователя</label>
-                                </div>
-                            </div>
-
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-users_delete" name="users_delete">
-                                    <label class="form-check-label" for="access-admin-checkbox-users_delete">Удаление пользователя</label>
-                                </div>
-                            </div>
-                            <!-- END Users Prermissions --> 
-
-                            <!-- Roles Prermissions -->
-                            <h2 class="content-heading pt-0 mt-5">Роли</h2>
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_viewAny" name="roles_viewAny">
-                                    <label class="form-check-label" for="access-admin-checkbox-roles_viewAny">Просмотр всех ролей</label>
-                                </div>
-                            </div>
-
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_create" name="roles_create">
-                                    <label class="form-check-label" for="access-admin-checkbox-roles_create">Создание роли</label>
-                                </div>
-                            </div>
-
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_update" name="roles_update">
-                                    <label class="form-check-label" for="access-admin-checkbox-roles_update">Редактирование роли</label>
-                                </div>
-                            </div>
-
-                            <div class="row g-sm push push">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="access-admin-checkbox-roles_delete" name="roles_delete">
-                                    <label class="form-check-label" for="access-admin-checkbox-roles_delete">Удаление роли</label>
-                                </div>
-                            </div>
-
-                            <!-- END Users Prermissions --> 
                         </div>
 
                     </div>
 
-                </div>
-                <!-- END Photos -->
+                </div> --}}
+                <!-- END Prermissions -->
                     <button class="btn btn-alt-success me-1 mb-3">
                         <i class="fa fa-fw fa-plus opacity-50 me-1"></i> Добавить
                     </button>

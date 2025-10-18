@@ -33,12 +33,9 @@ class AdminPanelMiddleware
             ->where('name', 'show_admin')
             ->exists();
 
-            //dd($next);
-
-        if ($hasPermission) {
+        if ($hasPermission == true) {
             return $next($request);
         }
-        return $next($request);
 
         // Все остальные случаи - доступ запрещен
         return redirect('/login');

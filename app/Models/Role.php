@@ -14,17 +14,7 @@ class Role extends Model
     protected $guarded = false;
 
     protected $fillable = [
-        'name',
-        'access_admin',
-        'users_viewAny',
-        'users_view',
-        'users_create',
-        'users_update',
-        'users_delete',
-        'roles_viewAny',
-        'roles_create',
-        'roles_update',
-        'roles_delete',
+        'name'
     ];
 
     public function permissions()

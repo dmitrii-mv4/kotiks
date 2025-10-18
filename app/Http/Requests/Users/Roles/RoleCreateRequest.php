@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Users\Roles;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\ModuleGenerator;
 
 class RoleCreateRequest extends FormRequest
 {
@@ -21,22 +22,49 @@ class RoleCreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|min:3|max:255',
-            'show_admin' => '',
-            'users_viewAny' => '',
-            'users_view' => '',
-            'users_create' => '',
-            'users_update' => '',
-            'users_delete' => '',
+            'show_admin' => 'sometimes|boolean',
+            
+            // Права для пользователей
+            'users_viewAny' => 'sometimes|boolean',
+            'users_view' => 'sometimes|boolean',
+            'users_create' => 'sometimes|boolean',
+            'users_update' => 'sometimes|boolean',
+            'users_delete' => 'sometimes|boolean',
+            
+            // Права для ролей
+            'roles_viewAny' => 'sometimes|boolean',
+            'roles_create' => 'sometimes|boolean',
+            'roles_update' => 'sometimes|boolean',
+            'roles_delete' => 'sometimes|boolean',
         ];
+
+        // Динамически добавляем правила для всех модулей
+        $allModulesData = ModuleGenerator::getAllModuleData();
+        
+        foreach ($allModulesData as $moduleGroup) {
+            foreach ($moduleGroup as $module) {
+                $moduleCode = $module->code;
+                
+                // Добавляем правила для каждого действия модуля
+                $rules['module_' . $moduleCode . '_viewAny'] = 'sometimes|boolean';
+                $rules['module_' . $moduleCode . '_view'] = 'sometimes|boolean';
+                $rules['module_' . $moduleCode . '_create'] = 'sometimes|boolean';
+                $rules['module_' . $moduleCode . '_update'] = 'sometimes|boolean';
+                $rules['module_' . $moduleCode . '_delete'] = 'sometimes|boolean';
+            }
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
             'name.required' => 'Это поле обязательно для заполнения!',
-            'name.min' => 'Имя должено быть не менее :min символов',
+            'name.min' => 'Имя должно быть не менее :min символов',
+            'name.max' => 'Имя должно быть не более :max символов',
         ];
     }
 }

@@ -22,11 +22,14 @@
 
     <!-- Page Content -->
     <div class="content">
+
+        @can('create', \App\Models\Role::class)
         <a href="{{ route('admin.roles.create') }}">
             <button type="button" class="btn btn-alt-success me-1 mb-3">
                 <i class="fa fa-fw fa-plus opacity-50 me-1"></i> Создать роль
             </button>
         </a>
+        @endcan
 
         <div class="block block-rounded">
             <div class="block-header block-header-default">
@@ -49,11 +52,16 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group">
+
+                                            @can('update', $role)
                                             <a href="{{ route('admin.roles.edit', $role->id) }}" type="button"
                                                 class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
                                                 data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
+                                            @endcan
+
+                                            @can('delete', $role)
                                             <form action="{{ route('admin.roles.delete', $role->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -67,6 +75,7 @@
                                                     <i class="fa fa-times"></i>
                                                 </button>
                                             </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

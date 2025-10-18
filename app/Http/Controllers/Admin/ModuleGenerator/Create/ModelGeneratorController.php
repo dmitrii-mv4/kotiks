@@ -63,34 +63,34 @@ PHP;
     /**
      * Создаём модель для названий свойств
      */
-    public function createModelPropertiesTitle($modelNamePropertiesTitle, $tableNamePropertiesTitle, $validated)
-    {
-        $modelDir = $this->ensureModulesModelDir();
-        $modelPath = app_path("Models/Modules/$modelNamePropertiesTitle.php");
+//     public function createModelPropertiesTitle($modelNamePropertiesTitle, $tableNamePropertiesTitle, $validated)
+//     {
+//         $modelDir = $this->ensureModulesModelDir();
+//         $modelPath = app_path("Models/Modules/$modelNamePropertiesTitle.php");
         
-        $content = <<<PHP
-<?php
+//         $content = <<<PHP
+// <?php
 
-namespace App\Models\Modules;
+// namespace App\Models\Modules;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
 
-class $modelNamePropertiesTitle extends Model
-{
-    protected \$table = '$tableNamePropertiesTitle';
-    protected \$guarded = false;
+// class $modelNamePropertiesTitle extends Model
+// {
+//     protected \$table = '$tableNamePropertiesTitle';
+//     protected \$guarded = false;
 
-    protected \$fillable = [
-        'title',
-        'code',
-    ];
-}
-PHP;
+//     protected \$fillable = [
+//         'title',
+//         'code',
+//     ];
+// }
+// PHP;
 
-        File::put($modelPath, $content);
+//         File::put($modelPath, $content);
         
-        return "Модель создана: " . $modelPath;
-    }
+//         return "Модель создана: " . $modelPath;
+//     }
 
     /**
      * Создаём модель для модуля с записями

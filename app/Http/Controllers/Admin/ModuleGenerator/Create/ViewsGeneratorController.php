@@ -97,7 +97,7 @@ class ViewsGeneratorController extends CreateModuleController
                       API модуля
                     </p>
                     <p class="text-muted mb-0">
-                      api/{{ $moduleData['code'] }}
+                      /api/{{ $moduleData['code'] }}
                     </p>
                   </div>
                   <div>
@@ -108,11 +108,13 @@ class ViewsGeneratorController extends CreateModuleController
             </div>
         </div>
 
-        <a href="{{ route('admin.modules.' . $moduleData['code'] . '.create') }}">
-            <button type="button" class="btn btn-alt-success me-1 mb-3">
-                <i class="fa fa-fw fa-plus opacity-50 me-1"></i> Добавить запись
-            </button>
-        </a>
+        @if(auth()->user()->hasPermission('module_'.$moduleData['code'].'_create'))
+            <a href="{{ route('admin.modules.' . $moduleData['code'] . '.create') }}">
+                <button type="button" class="btn btn-alt-success me-1 mb-3">
+                    <i class="fa fa-fw fa-plus opacity-50 me-1"></i> Добавить запись
+                </button>
+            </a>
+        @endif
 
         <div class="block block-rounded">
             <div class="block-header block-header-default">
@@ -141,11 +143,16 @@ class ViewsGeneratorController extends CreateModuleController
                                 @endif
                                 <td class="text-center">
                                     <div class="btn-group">
+
+                                        @can('update', $item)
                                         <a href="{{ route('admin.modules.'.$moduleData->code.'.edit', $item->id) }}" type="button"
                                             class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
                                             data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
+                                        @endcan
+
+                                        @can('delete', $item)
                                         <form action="{{ route('admin.modules.' . $moduleData->code . '.delete', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -159,6 +166,7 @@ class ViewsGeneratorController extends CreateModuleController
                                                 <i class="fa fa-times"></i>
                                             </button>
                                         </form>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>
@@ -340,6 +348,8 @@ BLADE;
     {
         $moduleNameCode = $validated['code'];
 
+        $moduleItemId = $moduleNameCode . '->id';
+
         // Создаем папку Modules если нужно и получаем путь к папке модуля
         $moduleDir = $this->modulesViewsDir($moduleNameCode);
 
@@ -371,7 +381,7 @@ BLADE;
     <div class="content">
         <div class="block block-rounded">
             <div class="block-content">
-                <form action="{{ route('admin.modules.'. $moduleData['code'] . '.update', $news->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.modules.'. $moduleData['code'] . '.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                     <!-- Basic Elements -->
@@ -383,11 +393,11 @@ BLADE;
                             <div class="col-lg-8 col-xl-5">
                                 <div class="mb-4">
                                     @if($columnType == 'varchar' || $columnType == 'string')
-                                        <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ $news->$columnName }}">
+                                        <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ $item->$columnName }}">
                                     @elseif($columnType == 'text')
-                                        <textarea class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" rows="4">{{ $news->$columnName }}</textarea>
+                                        <textarea class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" rows="4">{{ $item->$columnName }}</textarea>
                                     @elseif($columnType == 'int')
-                                        <input type="number" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ $news->$columnName }}">
+                                        <input type="number" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ $item->$columnName }}">
                                     @endif
                                 </div>
                             </div>

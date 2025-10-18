@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         return $this->role->permissions();
     }
+
+    // Для проверки прав создания записией в blade
+    public function hasPermission($permissionName)
+    {
+        return $this->permissions()->where('name', $permissionName)->exists();
+    }
 }

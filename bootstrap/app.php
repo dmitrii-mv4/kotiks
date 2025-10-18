@@ -3,6 +3,10 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
+use App\Providers\ModuleMiddlewareServiceProvider;
 use App\Http\Middleware\AdminPanelMiddleware;
 use App\Http\Middleware\Users\UsersIndexMiddleware;
 use App\Http\Middleware\Users\UsersCreateMiddleware;
@@ -19,8 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
+    ->withMiddleware(function (Middleware $middleware) {
+        $baseAliases = [
             'admin' => AdminPanelMiddleware::class,
             'users_index' => UsersIndexMiddleware::class,
             'users_create' => UsersCreateMiddleware::class,
@@ -31,7 +35,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'roles_create' => RolesCreateMiddleware::class,
             'roles_update' => RolesUpdateMiddleware::class,
             'roles_delete' => RolesDeleteMiddleware::class,
-        ]);
+        ];
+
+        $middleware->alias($baseAliases);
     })
     ->withRouting(
         web: __DIR__.'/../routes/web.php',

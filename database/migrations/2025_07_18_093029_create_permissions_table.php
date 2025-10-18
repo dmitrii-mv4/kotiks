@@ -23,7 +23,7 @@ return new class extends Migration
             [
                 'id' => '1',
                 'name' => 'show_admin',
-                'title' => 'Показать Административную панель',
+                'title' => 'Доступ в Панель Администратора',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

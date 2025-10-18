@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ModuleGenerator\ModuleGeneratorController;
 use App\Http\Controllers\Admin\ModuleGenerator\CreateModuleController;
+use App\Http\Controllers\Admin\ModuleGenerator\DeleteModuleController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\ModuleGenerator;
@@ -32,30 +33,34 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
                 continue; // Пропускаем если свойство не существует
             }
 
-            // $nameCodeModule = '$item->code';
-
             // Создаем префикс для группы роутов
             $prefix = '/modules/' . $item->code;
 
             // Регистрируем маршруты ДЛЯ КАЖДОГО элемента
             Route::prefix($prefix)->group(function () use ($controllerName, $item) {
                 Route::get('/', [$controllerName, 'index'])
+                    ->middleware([$item->code . '_index'])
                     ->name('admin.modules.' . $item->code . '.index');
                         
                 Route::get('/create', [$controllerName, 'create'])
+                    ->middleware([$item->code . '_create'])
                     ->name('admin.modules.' . $item->code . '.create');
 
                 Route::patch('/store', [$controllerName, 'store'])
+                    ->middleware([$item->code . '_create'])
                     ->name('admin.modules.' . $item->code . '.store');
 
-                Route::get('/edit/{'.$item->code.'}', [$controllerName, 'edit'])
+                Route::get('/edit/{item}', [$controllerName, 'edit'])
+                    ->middleware([$item->code . '_update'])
                     ->name('admin.modules.' . $item->code . '.edit');
 
-                Route::patch('/update{id}', [$controllerName, 'update'])
-                     ->name('admin.modules.' . $item->code . '.update');
+                Route::patch('/update/{item}', [$controllerName, 'update'])
+                    ->middleware([$item->code . '_update'])
+                    ->name('admin.modules.' . $item->code . '.update');
 
-                Route::delete('/delete{'.$item->code.'}', [$controllerName, 'delete'])
-                     ->name('admin.modules.' . $item->code . '.delete');
+                Route::delete('/delete/{item}', [$controllerName, 'delete'])
+                    ->middleware([$item->code . '_delete'])
+                    ->name('admin.modules.' . $item->code . '.delete');
             });
         }
     }
@@ -82,21 +87,11 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::delete('/delete/{role}', 'delete')->middleware(['roles_delete'])->name('admin.roles.delete');
     });
 
-    // Route::prefix('/modules')->controller(ModuleGeneratorController::class)->group(function () 
-    // {
-    //     Route::get('/', 'index')->name('admin.modules');
-    //     Route::get('/create', 'create')->name('admin.modules.create');
-    //     Route::post('/store', 'store')->name('admin.modules.store');
-    //     // Route::get('/edit/{role}', 'edit')->middleware(['roles_update'])->name('admin.roles.edit');
-    //     // Route::patch('/edit/{role}', 'update')->middleware(['roles_update'])->name('admin.roles.update');
-    //     // Route::delete('/delete/{role}', 'delete')->middleware(['roles_delete'])->name('admin.roles.delete');
-    // });
-
     Route::prefix('/modules')->group(function ()
     {
         Route::get('/', [ModuleGeneratorController::class, 'index'])->name('admin.modules');
         Route::get('/create', [CreateModuleController::class, 'create'])->name('admin.modules.create');
         Route::post('/store', [CreateModuleController::class, 'store'])->name('admin.modules.store');
-        Route::delete('/delete/{module}', [CreateModuleController::class, 'delete'])->name('admin.modules.delete');
+        Route::delete('/delete/{moduleCode}', [DeleteModuleController::class, 'delete'])->name('admin.modules.delete');
     });
 });
